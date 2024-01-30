@@ -1,0 +1,65 @@
+.mainHeader {
+    margin: 2em auto;
+    padding: 0.5em;
+    width: max-content;
+    border: 1px solid gray;
+    background-color: white;
+    box-shadow: 3px 3px black;
+}   
+
+.content {
+    background-image:url('../../assets/il-vagabiondo-Jy7wD-TiJ2A-unsplash.jpg');
+    display: flex;
+    margin: 5em 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 450px;
+    width: 500px;
+    gap: 2em;
+    background-color: white;
+    border:1px solid gray;
+    box-shadow: -3px 3px black;
+}
+
+.form > div {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.form > div:last-child {
+    grid-template-columns: 1fr;
+    width: 80%;
+}
+
+
+.form > div > img {
+    margin: auto auto;
+    height: 50px;
+    width: 50px;
+}
+
+.form > div > input {
+    padding: 10px;
+    width: 300px;
+    height: 40px;
+}
+
+.form > div > button {
+    padding: 10px;
+}
+
+.errorMessage {
+    position: absolute;
+    color: red;
+    top: -0.5em;
+    left: 6em;
+}

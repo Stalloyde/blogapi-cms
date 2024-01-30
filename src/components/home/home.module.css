@@ -1,0 +1,38 @@
+.cardContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px,500px));
+}
+
+.card {
+    background-color: white;
+    border: 1px solid gray;
+    padding: 1em;
+    margin: 2em;
+    min-height: 300px;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: -3px 3px black;
+}
+
+.mainHeader {
+    margin: 2em auto;
+    padding: 0.5em;
+    width: max-content;
+    border: 1px solid gray;
+    background-color: white;
+    box-shadow: 3px 3px black;
+}
+
+.content {
+    height: 60%;
+    margin: 1em 0.5em;
+    padding: 1em;
+    line-height: 1.5;
+    border: 1mm ridge aliceblue;
+    border-radius: 10px;
+}
+
+.comments {
+    padding: 1em 1em;
+    text-align: end;
+}
