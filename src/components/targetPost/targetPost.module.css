@@ -36,6 +36,7 @@
 .comment {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: white;
     box-shadow: -3px 3px black;
     border-radius: 10px;
@@ -44,10 +45,26 @@
     margin: 1em;
 }
 
-.comment > div {
-    width: 650px;
+.comment > div:first-child {
+    width: 600px;
 }
 
+.commentAction {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: smaller;
+}
+
+.commentAction > img {
+    height: 25px;
+    width: 25px;
+}
+
+.commentAction:hover {
+    cursor: pointer;
+}
 
 hr {
     margin: 0em 30em;

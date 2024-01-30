@@ -19,10 +19,17 @@ function Header({ token, setToken }: PropsType) {
 
   return (
     <header className={styles.header}>
-      <Link to='/mod/posts' className={styles.navbtn}>
-        <img src={homeLogo} alt='home-logo'></img>
-        Home
-      </Link>
+      {token ? (
+        <Link to='/mod/posts' className={styles.navbtn}>
+          <img src={homeLogo} alt='home-logo'></img>
+          Home
+        </Link>
+      ) : (
+        <Link to='/mod/login' className={styles.navbtn}>
+          <img src={homeLogo} alt='home-logo'></img>
+          Home
+        </Link>
+      )}
       <h1>Stalloyde's Blog - CMS</h1>
       <div className={styles.nav}>
         {!token ? (

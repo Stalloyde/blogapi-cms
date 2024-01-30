@@ -4,6 +4,7 @@
 }
 
 .card {
+    position: relative;
     background-color: white;
     border: 1px solid gray;
     padding: 1em;
@@ -12,6 +13,19 @@
     min-width: 300px;
     border-radius: 10px;
     box-shadow: -3px 3px black;
+}   
+
+.newProject {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: rgb(247, 242, 242);
+}
+
+.newProject:hover {
+    cursor: pointer;
 }
 
 .mainHeader {
@@ -35,4 +49,37 @@
 .comments {
     padding: 1em 1em;
     text-align: end;
+    flex-grow:1;
+}
+
+.cardInfo{
+    display: flex;
+}
+
+.publishStatus {
+    padding: 1em 0em;
+}
+
+.cardActions {
+    position: absolute;
+    display: flex;
+    gap: 20px;
+    right: 25px;
+}
+
+.cardActions > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+}
+
+.cardActions > div > img {
+    width: 25px;
+    height: 25px;
+}
+
+.cardActions > div:hover {
+    cursor: pointer;
 }

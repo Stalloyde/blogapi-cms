@@ -5,6 +5,7 @@ import Layout from '../layout/layout';
 import styles from './targetPost.module.css';
 import formatDate from '../../formatDate';
 import '../../index.css';
+import deleteIcon from '../../assets/icons8-delete-50.png';
 
 type PropsType = {
   token: string;
@@ -53,6 +54,10 @@ function TargetPost({ token, setToken }: PropsType) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleDelete = () => {
+    console.log('delete!');
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setRerender(false);
@@ -88,7 +93,7 @@ function TargetPost({ token, setToken }: PropsType) {
     const fetchTargetPost = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/posts/${targetPostId.id}`,
+          `http://localhost:3000/mod/posts/${targetPostId.id}`,
           {
             headers: {
               Authorization: token,
@@ -103,7 +108,6 @@ function TargetPost({ token, setToken }: PropsType) {
         }
 
         const responseData = await response.json();
-        ('');
         setTargetPostData(responseData);
         setError(null);
       } catch (err: any) {
@@ -113,7 +117,7 @@ function TargetPost({ token, setToken }: PropsType) {
       }
     };
     fetchTargetPost();
-  }, [rerender]);
+  }, [token]);
 
   return (
     <Layout token={token} setToken={setToken}>
@@ -137,37 +141,25 @@ function TargetPost({ token, setToken }: PropsType) {
 
           <div className={styles.commentsContainer}>
             <h3>Comments</h3>
-            {!token ? (
-              <div>
-                Please{' '}
-                <Link to='/signup'>
-                  <em className={styles.commentLink}>sign up</em>
-                </Link>{' '}
-                or
-                <Link to='/login'>
-                  <em className={styles.commentLink}>login</em>
-                </Link>{' '}
-                to add a comment
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <label htmlFor='newComment'>Add Comment:</label>
-                {errorMessage && (
-                  <p className={styles.errorMessage}>*Input required</p>
-                )}
-                <textarea
-                  value={newComment}
-                  id='newComment'
-                  name='newComment'
-                  placeholder='Write a comment...'
-                  required
-                  onChange={(e) => {
-                    setNewComment(e.target.value);
-                  }}
-                />
-                <button value='Post'>Post</button>
-              </form>
-            )}
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <label htmlFor='newComment'>Add Comment:</label>
+              {errorMessage && (
+                <p className={styles.errorMessage}>*Input required</p>
+              )}
+              <textarea
+                value={newComment}
+                id='newComment'
+                name='newComment'
+                placeholder='Write a comment...'
+                required
+                onChange={(e) => {
+                  setNewComment(e.target.value);
+                }}
+              />
+              <button value='Post'>Post</button>
+            </form>
+
             {targetPostData.comments.length > 0 ? (
               <>
                 {targetPostData.comments.map((comment: CommentType) => (
@@ -176,6 +168,12 @@ function TargetPost({ token, setToken }: PropsType) {
                     <em>
                       {comment.author.username} | {formatDate(comment.date)}
                     </em>
+                    <div
+                      className={styles.commentAction}
+                      onClick={handleDelete}>
+                      <img src={deleteIcon} alt='delete'></img>
+                      Delete
+                    </div>
                   </div>
                 ))}
               </>
