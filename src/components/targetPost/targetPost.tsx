@@ -48,7 +48,6 @@ function TargetPost({ token, setToken }: PropsType) {
     TargetPostsType | undefined
   >();
   const [newComment, setNewComment] = useState('');
-  const [rerender, setRerender] = useState(false);
   const targetPostId = useParams();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -60,7 +59,6 @@ function TargetPost({ token, setToken }: PropsType) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setRerender(false);
     try {
       const response = await fetch(
         `http://localhost:3000/mod/posts/${targetPostId.id}`,
@@ -82,7 +80,6 @@ function TargetPost({ token, setToken }: PropsType) {
       } else {
         setNewComment('');
         setErrorMessage('');
-        setRerender(true);
       }
     } catch (err: any) {
       console.log(err.message);
