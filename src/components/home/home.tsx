@@ -7,6 +7,7 @@ import formatDate from '../../formatDate';
 import editIcon from '../../assets/icons8-edit-50.png';
 import deleteIcon from '../../assets/icons8-delete-50.png';
 import createIcon from '../../assets/icons8-add-48.png';
+import NewPost from './newPost';
 
 type PropsType = {
   token: string;
@@ -87,10 +88,11 @@ function Home({ token, setToken }: PropsType) {
   const [posts, setPosts] = useState<PostsType>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [creatingNewPost, setCreatingNewPost] = useState(false);
   const navigate = useNavigate();
 
   const handleCreatePost = () => {
-    console.log('Create');
+    setCreatingNewPost(true);
   };
 
   useEffect(() => {
@@ -141,6 +143,9 @@ function Home({ token, setToken }: PropsType) {
               <Card post={post} key={index} />
             ))}
           </div>
+          {creatingNewPost && (
+            <NewPost setCreatingNewPost={setCreatingNewPost} />
+          )}
         </>
       )}
     </Layout>

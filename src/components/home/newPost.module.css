@@ -1,0 +1,56 @@
+.newPostOverlay {
+    position: absolute;
+    top: 0;
+    opacity: 0.9;
+    background-color: white;
+    height: 100vh;
+    width: 100vw;
+}
+
+.form > h2 {
+    margin: auto;
+    padding: 0.5em;
+    width: max-content;
+    border: 1px solid gray;
+    background-color: white;
+    box-shadow: 3px 3px black;
+}
+
+.form {
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    width: 40%;
+    display:flex;
+    flex-direction: column ;
+    padding: 2em;
+    gap: 2em;
+    background-color: aliceblue;
+    border: 1px solid gray;
+    box-shadow: -3px 3px black;
+    border-radius: 10px;
+}
+
+.form > div {
+    display: grid;
+    grid-template-columns: 0.2fr 1fr;
+    align-items: center;
+}
+
+.form > div > textarea {
+    padding: 10px;
+    height: 100px;
+}
+
+.form > div > input {
+    padding: 10px;
+    height: 40px;
+}
+
+.form > div > input[type=checkbox] {
+    height: 20px;
+}
+
+.form > button {
+    padding: 10px;
+}
