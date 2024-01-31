@@ -25,9 +25,9 @@ function Login({ setToken }: PropsType) {
   const navigate = useNavigate();
 
   const handleToken = (BearerToken: string) => {
-    const oneMinute = new Date(new Date().getTime() + 10 * 60 * 1000);
+    const oneHour = new Date(new Date().getTime() + 1000 * 60 * 1000);
     Cookies.set('token', BearerToken, {
-      expires: oneMinute,
+      expires: oneHour,
       secure: true,
     });
     setToken(Cookies.get('token'));
