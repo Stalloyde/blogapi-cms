@@ -60,6 +60,14 @@
     padding: 1em 0em;
 }
 
+.published {
+    color: green;
+}
+
+.unpublished {
+    color: red;
+}
+
 .cardActions {
     position: absolute;
     display: flex;

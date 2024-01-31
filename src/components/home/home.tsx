@@ -72,7 +72,11 @@ function Card({ post }) {
         />
         <div className={styles.cardInfo}>
           <div className={styles.publishStatus}>
-            <em>{post.isPublished ? 'Published' : 'Not Published'}</em>
+            {post.isPublished ? (
+              <em className={styles.published}>Published</em>
+            ) : (
+              <em className={styles.unpublished}>Not Published</em>
+            )}
           </div>
 
           <div className={styles.comments}>
