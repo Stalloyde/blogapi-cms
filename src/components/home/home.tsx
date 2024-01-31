@@ -123,7 +123,7 @@ function Home({ token, setToken }: PropsType) {
       }
     };
     getPosts();
-  }, []);
+  }, [token, creatingNewPost]);
 
   return (
     <Layout token={token} setToken={setToken}>
@@ -148,7 +148,7 @@ function Home({ token, setToken }: PropsType) {
             ))}
           </div>
           {creatingNewPost && (
-            <NewPost setCreatingNewPost={setCreatingNewPost} />
+            <NewPost setCreatingNewPost={setCreatingNewPost} token={token} />
           )}
         </>
       )}

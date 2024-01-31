@@ -1,8 +1,37 @@
 import { useState, useEffect } from 'react';
 import styles from './newPost.module.css';
 
-function NewPost({ setCreatingNewPost }) {
+function NewPost({ setCreatingNewPost, token }) {
   const [toPublish, setToPublish] = useState(true);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:3000/mod/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          title,
+          content,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.errors) {
+        throw new Error(responseData.errors[0].msg);
+      } else {
+        setCreatingNewPost(false);
+      }
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  };
 
   return (
     <>
@@ -11,15 +40,19 @@ function NewPost({ setCreatingNewPost }) {
         onClick={() => {
           setCreatingNewPost(false);
         }}></div>
-      <form
-        className={styles.form}
-        onSubmit={() => {
-          setCreatingNewPost(false);
-        }}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h2>Create New Post</h2>
         <div>
           <label htmlFor='title'>Title: </label>
-          <input type='text' name='title' id='title' required />
+          <input
+            type='text'
+            name='title'
+            id='title'
+            required
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            maxLength={45}
+          />
         </div>
 
         <div>
@@ -34,7 +67,13 @@ function NewPost({ setCreatingNewPost }) {
 
         <div>
           <label htmlFor='content'>Content: </label>
-          <textarea name='content' id='content' required />
+          <textarea
+            name='content'
+            id='content'
+            required
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
         </div>
 
         <div>
