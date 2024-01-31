@@ -48,6 +48,7 @@ function TargetPost({ token, setToken }: PropsType) {
     TargetPostsType | undefined
   >();
   const [newComment, setNewComment] = useState('');
+  const [rerender, setRerender] = useState(false);
   const targetPostId = useParams();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -80,6 +81,7 @@ function TargetPost({ token, setToken }: PropsType) {
       } else {
         setNewComment('');
         setErrorMessage('');
+        setRerender(true);
       }
     } catch (err: any) {
       console.log(err.message);
@@ -106,6 +108,7 @@ function TargetPost({ token, setToken }: PropsType) {
 
         const responseData = await response.json();
         setTargetPostData(responseData);
+        setRerender(false);
         setError(null);
       } catch (err: any) {
         setError(err.message);
@@ -114,7 +117,7 @@ function TargetPost({ token, setToken }: PropsType) {
       }
     };
     fetchTargetPost();
-  }, [token]);
+  }, [token, rerender]);
 
   return (
     <Layout token={token} setToken={setToken}>
