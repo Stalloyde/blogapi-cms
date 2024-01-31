@@ -34,13 +34,42 @@ type PostsType = {
   comments: [];
 }[];
 
-function Card({ post }) {
+function Card({ post, token, setPosts }) {
   const handleEdit = () => {
     console.log('edit!');
   };
 
-  const handleDelete = () => {
-    console.log('delete!');
+  const handleDelete = async () => {
+    const confirmation = window.confirm(
+      'Are you sure you want to delete this post?',
+    );
+
+    if (confirmation) {
+      const targetPostId = post._id;
+
+      try {
+        const response = await fetch(`http://localhost:3000/mod/posts`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            targetPostId,
+          }),
+        });
+
+        const responseData = await response.json();
+
+        if (responseData.errors) {
+          throw new Error(responseData.errors[0].msg);
+        } else {
+          setPosts(responseData);
+        }
+      } catch (err: any) {
+        throw new Error(err.message);
+      }
+    }
   };
 
   return (
@@ -140,11 +169,11 @@ function Home({ token, setToken }: PropsType) {
             <div
               className={`${styles.card} ${styles.newProject}`}
               onClick={handleCreatePost}>
-              <div>Create New Project</div>
+              <div>Create New Post</div>
               <img src={createIcon} alt='create' />
             </div>
             {posts.map((post, index) => (
-              <Card post={post} key={index} />
+              <Card post={post} setPosts={setPosts} key={index} token={token} />
             ))}
           </div>
           {creatingNewPost && (
