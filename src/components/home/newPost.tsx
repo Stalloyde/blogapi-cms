@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './newPost.module.css';
 
 function NewPost({ setCreatingNewPost, token }) {
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ function NewPost({ setCreatingNewPost, token }) {
         body: JSON.stringify({
           title,
           content,
+          toPublish,
         }),
       });
 
