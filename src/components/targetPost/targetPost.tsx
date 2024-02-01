@@ -55,8 +55,38 @@ function TargetPost({ token, setToken }: PropsType) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleDelete = () => {
-    console.log('delete!');
+  const handleDelete = async (commentId) => {
+    const confirmation = window.confirm(
+      'Are you sure you want to delete this comment?',
+    );
+
+    if (confirmation) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/mod/posts/${targetPostId.id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token,
+            },
+            body: JSON.stringify({
+              commentId,
+            }),
+          },
+        );
+        const responseData = await response.json();
+
+        if (responseData.errors) {
+          throw new Error(responseData.errors[0].msg);
+        } else {
+          setTargetPostData(responseData);
+          setRerender(true);
+        }
+      } catch (err: any) {
+        throw new Error(err);
+      }
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -171,8 +201,9 @@ function TargetPost({ token, setToken }: PropsType) {
                       {comment.author.username} | {formatDate(comment.date)}
                     </em>
                     <div
+                      id={comment._id}
                       className={styles.commentAction}
-                      onClick={handleDelete}>
+                      onClick={() => handleDelete(comment._id)}>
                       <img src={deleteIcon} alt='delete'></img>
                       Delete
                     </div>
