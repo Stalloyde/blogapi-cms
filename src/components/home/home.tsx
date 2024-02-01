@@ -138,8 +138,9 @@ function Home({ token, setToken }: PropsType) {
         });
 
         if (!response.ok) {
+          if (response.status === 401) navigate('/mod/login');
           throw new Error(
-            `This is an HTTP error: The status is ${response.status}`,
+            `This is an HTTP error: The status is ${response.status}: ${response}`,
           );
         }
         const responseData = await response.json();

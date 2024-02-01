@@ -1,5 +1,5 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Layout from '../layout/layout';
 import styles from './targetPost.module.css';
@@ -53,6 +53,7 @@ function TargetPost({ token, setToken }: PropsType) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     console.log('delete!');
@@ -101,8 +102,9 @@ function TargetPost({ token, setToken }: PropsType) {
         );
 
         if (!response.ok) {
+          if (response.status === 401) navigate('/mod/login');
           throw new Error(
-            `This is an HTTP error: The status is ${response.status}`,
+            `This is an HTTP error: The status is ${response.status}: ${response}`,
           );
         }
 

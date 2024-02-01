@@ -24,7 +24,12 @@ function NewPost({ setCreatingNewPost, token }) {
       const responseData = await response.json();
 
       if (responseData.errors) {
-        throw new Error(responseData.errors[0].msg);
+        if (!response.ok) {
+          if (response.status === 401) navigate('/mod/login');
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}: ${response}`,
+          );
+        }
       } else {
         setCreatingNewPost(false);
       }
