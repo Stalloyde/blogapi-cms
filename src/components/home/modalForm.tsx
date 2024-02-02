@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './newPost.module.css';
+import styles from './modalForm.module.css';
 
-function NewPost({ setCreatingNewPost, token }) {
+function NewPost({ setModalForm, token }) {
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    setModalForm(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +38,8 @@ function NewPost({ setCreatingNewPost, token }) {
           );
         }
       } else {
-        setCreatingNewPost(false);
+        setModalForm(false);
+        false;
       }
     } catch (err: any) {
       throw new Error(err.message);
@@ -43,11 +48,7 @@ function NewPost({ setCreatingNewPost, token }) {
 
   return (
     <>
-      <div
-        className={styles.newPostOverlay}
-        onClick={() => {
-          setCreatingNewPost(false);
-        }}></div>
+      <div className={styles.newPostOverlay} onClick={handleClick}></div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>Create New Post</h2>
         <div>

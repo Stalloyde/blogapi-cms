@@ -7,7 +7,7 @@ import formatDate from '../../formatDate';
 import editIcon from '../../assets/icons8-edit-50.png';
 import deleteIcon from '../../assets/icons8-delete-50.png';
 import createIcon from '../../assets/icons8-add-48.png';
-import NewPost from './newPost';
+import ModalForm from './modalForm';
 
 type PropsType = {
   token: string;
@@ -34,9 +34,9 @@ type PostsType = {
   comments: [];
 }[];
 
-function Card({ post, token, setPosts }) {
+function Card({ post, token, setPosts, setModalForm }) {
   const handleEdit = () => {
-    console.log('edit!');
+    setModalForm(true);
   };
 
   const handleDelete = async () => {
@@ -121,11 +121,11 @@ function Home({ token, setToken }: PropsType) {
   const [posts, setPosts] = useState<PostsType>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [creatingNewPost, setCreatingNewPost] = useState(false);
+  const [modalForm, setModalForm] = useState(false);
   const navigate = useNavigate();
 
   const handleCreatePost = () => {
-    setCreatingNewPost(true);
+    setModalForm(true);
   };
 
   useEffect(() => {
@@ -153,7 +153,7 @@ function Home({ token, setToken }: PropsType) {
       }
     };
     getPosts();
-  }, [token, creatingNewPost]);
+  }, [token, modalForm, modalForm]);
 
   return (
     <Layout token={token} setToken={setToken}>
@@ -174,12 +174,16 @@ function Home({ token, setToken }: PropsType) {
               <img src={createIcon} alt='create' />
             </div>
             {posts.map((post, index) => (
-              <Card post={post} setPosts={setPosts} key={index} token={token} />
+              <Card
+                post={post}
+                setPosts={setPosts}
+                setModalForm={setModalForm}
+                key={index}
+                token={token}
+              />
             ))}
           </div>
-          {creatingNewPost && (
-            <NewPost setCreatingNewPost={setCreatingNewPost} token={token} />
-          )}
+          {modalForm && <ModalForm setModalForm={setModalForm} token={token} />}
         </>
       )}
     </Layout>
