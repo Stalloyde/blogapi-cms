@@ -34,9 +34,10 @@ type PostsType = {
   comments: [];
 }[];
 
-function Card({ post, token, setPosts, setModalForm }) {
-  const handleEdit = () => {
+function Card({ post, token, setPosts, setModalForm, setEditId }) {
+  const handleEdit = (editId) => {
     setModalForm(true);
+    setEditId(editId);
   };
 
   const handleDelete = async () => {
@@ -62,7 +63,9 @@ function Card({ post, token, setPosts, setModalForm }) {
         const responseData = await response.json();
 
         if (responseData.errors) {
-          throw new Error(responseData.errors[0].msg);
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}: ${response}`,
+          );
         } else {
           setPosts(responseData);
         }
@@ -75,7 +78,7 @@ function Card({ post, token, setPosts, setModalForm }) {
   return (
     <div className={styles.card}>
       <div className={styles.cardActions}>
-        <div onClick={handleEdit}>
+        <div onClick={() => handleEdit(post._id)}>
           <img src={editIcon} alt='edit'></img>
           Edit
         </div>
@@ -122,6 +125,7 @@ function Home({ token, setToken }: PropsType) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalForm, setModalForm] = useState(false);
+  const [editId, setEditId] = useState(null);
   const navigate = useNavigate();
 
   const handleCreatePost = () => {
@@ -153,7 +157,7 @@ function Home({ token, setToken }: PropsType) {
       }
     };
     getPosts();
-  }, [token, modalForm, modalForm]);
+  }, [token, modalForm]);
 
   return (
     <Layout token={token} setToken={setToken}>
@@ -178,12 +182,20 @@ function Home({ token, setToken }: PropsType) {
                 post={post}
                 setPosts={setPosts}
                 setModalForm={setModalForm}
+                setEditId={setEditId}
                 key={index}
                 token={token}
               />
             ))}
           </div>
-          {modalForm && <ModalForm setModalForm={setModalForm} token={token} />}
+          {modalForm && (
+            <ModalForm
+              setModalForm={setModalForm}
+              editId={editId}
+              setEditId={setEditId}
+              token={token}
+            />
+          )}
         </>
       )}
     </Layout>
