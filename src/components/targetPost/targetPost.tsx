@@ -43,6 +43,7 @@ function TargetPost({ token, setToken }: PropsType) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleDelete = async (commentId) => {
@@ -81,6 +82,7 @@ function TargetPost({ token, setToken }: PropsType) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const response = await fetch(
         `http://localhost:3000/mod/posts/${targetPostId.id}`,
@@ -103,6 +105,7 @@ function TargetPost({ token, setToken }: PropsType) {
         setNewComment('');
         setErrorMessage('');
         setRerender(true);
+        setSubmitting(false);
       }
     } catch (err: any) {
       console.log(err.message);
@@ -180,7 +183,14 @@ function TargetPost({ token, setToken }: PropsType) {
                   setNewComment(e.target.value);
                 }}
               />
-              <button value='Post'>Post</button>
+
+              {submitting ? (
+                <button value='Post' disabled>
+                  Posting..
+                </button>
+              ) : (
+                <button value='Post'>Post</button>
+              )}
             </form>
 
             {targetPostData.comments.length > 0 ? (
