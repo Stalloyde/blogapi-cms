@@ -13,17 +13,7 @@ type PropsType = {
 };
 
 type TargetPostsType = {
-  image: {
-    fieldname: String;
-    originalname: String;
-    encoding: String;
-    mimetype: String;
-    destination: String;
-    filename: String;
-    path: String;
-    size: Number;
-  };
-
+  image: Object;
   author: String;
   title: String;
   content: String;
@@ -164,6 +154,7 @@ function TargetPost({ token, setToken }: PropsType) {
               Written by: {targetPostData.author.username} | Date:{' '}
               {formatDate(targetPostData.date)}
             </em>
+            {targetPostData.image && <img src={targetPostData.image.url}></img>}
             <div className={styles.postContainer}>
               <div>{targetPostData.content}</div>
             </div>

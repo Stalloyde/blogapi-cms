@@ -6,38 +6,41 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [image, setImage] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {
-    setModalForm(false);
-    setEditId(null);
+    if (!submitting) {
+      setModalForm(false);
+      setEditId(null);
+    }
   };
 
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('toPublish', toPublish);
+    formData.append('image', image);
+
     try {
       const response = await fetch(`http://localhost:3000/mod/posts`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: token,
         },
-        body: JSON.stringify({
-          title,
-          content,
-          toPublish,
-        }),
+        body: formData,
       });
 
-      const responseData = await response.json();
-
-      if (responseData.errors) {
-        if (!response.ok) {
-          if (response.status === 401) navigate('/mod/login');
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}: ${response}`,
-          );
-        }
+      if (!response.ok) {
+        if (response.status === 401) navigate('/mod/login');
+        throw new Error(
+          `This is an HTTP error: The status is ${response.status}: ${response}`,
+        );
       } else {
         setModalForm(false);
       }
@@ -48,24 +51,26 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
 
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('toPublish', toPublish);
+    formData.append('image', image);
+    formData.append('editId', editId);
+
     try {
       const response = await fetch(`http://localhost:3000/mod/posts`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: token,
         },
-        body: JSON.stringify({
-          title,
-          content,
-          toPublish,
-          editId,
-        }),
+        body: formData,
       });
 
-      const responseData = await response.json();
-
-      if (responseData.errors) {
+      if (!response.ok) {
+        if (response.status === 401) navigate('/mod/login');
         throw new Error(
           `This is an HTTP error: The status is ${response.status}: ${response}`,
         );
@@ -100,6 +105,7 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
             setTitle(responseData.title);
             setContent(responseData.content);
             setToPublish(responseData.isPublished);
+            setImage(responseData.image);
           }
         } catch (err) {
           throw new Error(err.msg);
@@ -111,15 +117,18 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
     return (
       <>
         <div className={styles.newPostOverlay} onClick={handleClick}></div>
-        <form className={styles.form} onSubmit={handleSubmitEdit}>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmitEdit}
+          encType='multipart/form-data'>
           <h2>Edit Post</h2>
           <div>
             <label htmlFor='title'>Title: </label>
             <input
+              required
               type='text'
               name='title'
               id='title'
-              required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength={45}
@@ -127,21 +136,22 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
           </div>
 
           <div>
-            <label htmlFor='image'>Upload Image (PNG, JPEG): </label>
+            <label htmlFor='image'>*Optional: Change Image (PNG, JPEG): </label>
             <input
               type='file'
-              accept='image/png, image/jpeg'
+              accept='image/png, image/jpeg, image/*'
               name='image'
               id='image'
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
 
           <div>
             <label htmlFor='content'>Content: </label>
             <textarea
+              required
               name='content'
               id='content'
-              required
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -162,7 +172,13 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
             </label>
           </div>
 
-          <button type='submit'>Update Post</button>
+          {submitting ? (
+            <button type='submit' disabled>
+              Updating...
+            </button>
+          ) : (
+            <button type='submit'>Update Post</button>
+          )}
         </form>
       </>
     );
@@ -170,15 +186,18 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
     return (
       <>
         <div className={styles.newPostOverlay} onClick={handleClick}></div>
-        <form className={styles.form} onSubmit={handleSubmitCreate}>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmitCreate}
+          encType='multipart/form-data'>
           <h2>Create New Post</h2>
           <div>
             <label htmlFor='title'>Title: </label>
             <input
+              required
               type='text'
               name='title'
               id='title'
-              required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength={45}
@@ -189,18 +208,20 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
             <label htmlFor='image'>Upload Image (PNG, JPEG): </label>
             <input
               type='file'
-              accept='image/png, image/jpeg'
+              accept='image/png, image/jpeg, image/*'
               name='image'
               id='image'
+              required
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
 
           <div>
             <label htmlFor='content'>Content: </label>
             <textarea
+              required
               name='content'
               id='content'
-              required
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -221,7 +242,13 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
             </label>
           </div>
 
-          <button type='submit'>Submit</button>
+          {submitting ? (
+            <button type='submit' disabled>
+              Creating Post...
+            </button>
+          ) : (
+            <button type='submit'>Create Post</button>
+          )}
         </form>
       </>
     );
