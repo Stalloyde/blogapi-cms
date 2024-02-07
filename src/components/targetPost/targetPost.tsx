@@ -46,7 +46,7 @@ function TargetPost({ token, setToken }: PropsType) {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleDelete = async (commentId) => {
+  const handleDelete = async (commentId: string) => {
     const confirmation = window.confirm(
       'Are you sure you want to delete this comment?',
     );

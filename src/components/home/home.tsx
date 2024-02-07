@@ -9,32 +9,36 @@ import deleteIcon from '../../assets/icons8-delete-50.png';
 import createIcon from '../../assets/icons8-add-48.png';
 import ModalForm from './modalForm';
 
-type PropsType = {
-  token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
-};
-
 type PostsType = {
   image: {
-    fieldname: String;
-    originalname: String;
-    encoding: String;
-    mimetype: String;
-    destination: String;
-    filename: String;
-    path: String;
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
     size: Number;
+    url: string;
   };
 
-  author: String;
-  title: String;
-  content: String;
+  author: string;
+  title: string;
+  content: string;
   date: Date;
   isPublished: Boolean;
   comments: [];
 }[];
 
-function Card({ post, token, setPosts, openModal }) {
+type PropsType = {
+  post: PostsType;
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+  setPosts: React.Dispatch<React.SetStateAction<string>>;
+  openModal: () => void;
+};
+
+function Card({ post, token, setPosts, openModal }: PropsType) {
   const handleDelete = async () => {
     const confirmation = window.confirm(
       'Are you sure you want to delete this post?',
@@ -120,11 +124,11 @@ function Home({ token, setToken }: PropsType) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalForm, setModalForm] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<null | string>(null);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const openModal = (editId) => {
+  const openModal = (editId: string) => {
     setModalForm(true);
     if (editId) setEditId(editId);
   };
@@ -182,7 +186,7 @@ function Home({ token, setToken }: PropsType) {
           <div className={styles.cardContainer}>
             <div
               className={`${styles.card} ${styles.newProject}`}
-              onClick={() => openModal()}>
+              onClick={() => openModal(null)}>
               <div>Create New Post</div>
               <img src={createIcon} alt='create' />
             </div>

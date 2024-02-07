@@ -1,8 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './modalForm.module.css';
 
-function ModalForm({ token, editId, submitting, setSubmitting, closeModal }) {
+type PropsType = {
+  token: string;
+  editId: string;
+  submitting: Boolean;
+  setSubmitting: React.Dispatch<React.SetStateAction<Boolean>>;
+  closeModal: () => void;
+};
+
+function ModalForm({
+  token,
+  editId,
+  submitting,
+  setSubmitting,
+  closeModal,
+}: PropsType) {
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -41,7 +55,7 @@ function ModalForm({ token, editId, submitting, setSubmitting, closeModal }) {
     }
   };
 
-  const handleSubmitEdit = async (e) => {
+  const handleSubmitEdit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
 
