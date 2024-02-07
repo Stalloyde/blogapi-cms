@@ -1,12 +1,20 @@
 .contentContainer {
-    margin: 2em 30em;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em 5em;
     padding: 1em;
-    text-align: center;
 }
 
 .contentContainer > h2 {
     padding: 0.5em;
     text-decoration: underline;
+}
+
+.contentContainer > img {
+    height: 400px;
+    width: 700px;
 }
 
 .postContainer { 
@@ -15,12 +23,13 @@
     padding: 1em;
     box-shadow: -3px 3px black;
     margin: 1em auto;
-    width: 80%;
     line-height: 1.5;
 }
 
 .commentsContainer {
-    margin: 0 30em;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
     border-radius: 10px;
     padding: 10px;
 }
@@ -35,7 +44,6 @@
 
 .comment {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: white;
     box-shadow: -3px 3px black;
@@ -43,10 +51,16 @@
     border:1px solid gray;
     padding: 1em;   
     margin: 1em;
+    width: 50%;
 }
 
 .comment > div:first-child {
-    width: 600px;
+    flex-grow: 10;
+}
+
+
+.comment > div:nth-child(2) {
+    flex-grow: 1;
 }
 
 .commentAction {
@@ -67,7 +81,7 @@
 }
 
 hr {
-    margin: 0em 30em;
+    margin: 0em 5em;
 }
 
 .commentLink {
@@ -79,20 +93,48 @@ hr {
     padding: 1em;
     display: grid;
     gap: 1em;
-    margin: 0 10em;
+    margin: 0 1em;
+    width: 40%;
 }
 
 .form > textarea {
     padding: 10px;
-    height: 80px;
+    height: 100px;
     line-height: 1.5;
 }
 
 .form > button {
     padding: 10px;
-    width: 15%;
+    width: 80px;
 }
 
 .errorMessage {
     color: red;
+}
+
+
+@media (max-width: 650px) {
+
+.contentContainer {
+    margin: 2em 1em;
+  }
+
+.postContainer { 
+    line-height: 1.2;
+}
+
+.form {
+    width: 100%;
+}
+
+.comment {
+    width: 100%;
+    margin: 0.5em;
+}
+
+.contentContainer > img {
+    height: 180px;
+    width: 350px;
+}
+
 }

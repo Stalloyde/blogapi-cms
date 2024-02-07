@@ -198,9 +198,9 @@ function TargetPost({ token, setToken }: PropsType) {
                 {targetPostData.comments.map((comment: CommentType) => (
                   <div key={comment._id} className={styles.comment}>
                     <div>{comment.content}</div>
-                    <em>
+                    <div>
                       {comment.author.username} | {formatDate(comment.date)}
-                    </em>
+                    </div>
                     <div
                       id={comment._id}
                       className={styles.commentAction}
