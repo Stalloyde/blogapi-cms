@@ -8,10 +8,21 @@ type PropsType = {
   setToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function Layout({ children, token, setToken }: PropsType) {
+function Layout({
+  children,
+  token,
+  setToken,
+  setModalForm,
+  submitting,
+}: PropsType) {
   return (
     <>
-      <Header token={token} setToken={setToken} />
+      <Header
+        token={token}
+        setToken={setToken}
+        setModalForm={setModalForm}
+        submitting={submitting}
+      />
       <main>{children}</main>
       <Footer />
     </>

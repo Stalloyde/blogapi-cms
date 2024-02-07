@@ -2,9 +2,9 @@
     position: absolute;
     top: 0;
     opacity: 0.9;
-    background-color: white;
-    height: 100vh;
-    width: 100vw;
+    background-color: rgb(54, 50, 50);
+    height: 100%;
+    width: 100%;
 }
 
 .form > h2 {
@@ -17,14 +17,13 @@
 }
 
 .form {
+    display:grid;
     position: absolute;
-    top: 25%;
+    top: 10%;
     left: 30%;
     width: 40%;
-    display:flex;
-    flex-direction: column ;
+    height: 80%;
     padding: 2em;
-    gap: 2em;
     background-color: aliceblue;
     border: 1px solid gray;
     box-shadow: -3px 3px black;
@@ -37,9 +36,14 @@
     align-items: center;
 }
 
+.form > div:last-child {
+    display:flex;
+    justify-content: center;
+}
+
 .form > div > textarea {
     padding: 10px;
-    height: 100px;
+    height: 300px;
 }
 
 .form > div > input {
@@ -51,6 +55,38 @@
     height: 20px;
 }
 
-.form > button {
+.form > div > button {
     padding: 10px;
 }
+
+@media (max-width: 1200px) {
+    .form {
+        display:grid;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        padding: 2em;
+        background-color: aliceblue;
+        border: 1px solid gray;
+        box-shadow: -3px 3px black;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 430px) {
+    .form {
+        top: 5%;
+        height: 90%;
+        width: 80%;
+        padding: 10px;
+    }
+
+    .form > div > textarea {
+        padding: 10px;
+        height: 200px;
+    }
+
+}
+

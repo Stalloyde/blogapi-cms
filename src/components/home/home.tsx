@@ -126,6 +126,7 @@ function Home({ token, setToken }: PropsType) {
   const [error, setError] = useState(null);
   const [modalForm, setModalForm] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleCreatePost = () => {
@@ -149,6 +150,7 @@ function Home({ token, setToken }: PropsType) {
         }
         const responseData = await response.json();
         setPosts(responseData);
+        setSubmitting(false);
         setError(null);
       } catch (err: any) {
         setError(err.message);
@@ -160,7 +162,13 @@ function Home({ token, setToken }: PropsType) {
   }, [token, modalForm]);
 
   return (
-    <Layout token={token} setToken={setToken}>
+    <Layout
+      token={token}
+      setToken={setToken}
+      setModalForm={setModalForm}
+      submitting={submitting}
+      setSubmitting={setSubmitting}
+      setEditId={setEditId}>
       {loading && <div className='loading'>Loading...</div>}
       {error && !loading && <div className='error'>{error}</div>}
 
@@ -194,6 +202,8 @@ function Home({ token, setToken }: PropsType) {
               editId={editId}
               setEditId={setEditId}
               token={token}
+              submitting={submitting}
+              setSubmitting={setSubmitting}
             />
           )}
         </>

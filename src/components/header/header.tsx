@@ -11,14 +11,28 @@ type PropsType = {
   setToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function Header({ token, setToken }: PropsType) {
+function Header({
+  token,
+  setToken,
+  setModalForm,
+  submitting,
+  setSubmitting,
+  setEditId,
+}: PropsType) {
   const handleClick = () => {
     setToken('');
     Cookies.remove('token');
   };
 
+  const handleModalForm = () => {
+    if (!submitting) {
+      setModalForm(false);
+      setEditId(null);
+    }
+  };
+
   return (
-    <header className={styles.header}>
+    <header className={styles.header} onClick={handleModalForm}>
       {token ? (
         <Link to='/mod/posts' className={styles.navbtn}>
           <img src={homeLogo} alt='home-logo'></img>

@@ -2,12 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './modalForm.module.css';
 
-function ModalForm({ setModalForm, token, editId, setEditId }) {
+function ModalForm({
+  setModalForm,
+  token,
+  editId,
+  setEditId,
+  submitting,
+  setSubmitting,
+}) {
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -171,14 +177,15 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
               Check to Publish. Uncheck to save without publishing
             </label>
           </div>
-
-          {submitting ? (
-            <button type='submit' disabled>
-              Updating...
-            </button>
-          ) : (
-            <button type='submit'>Update Post</button>
-          )}
+          <div>
+            {submitting ? (
+              <button type='submit' disabled>
+                Updating...
+              </button>
+            ) : (
+              <button type='submit'>Update Post</button>
+            )}
+          </div>
         </form>
       </>
     );
@@ -241,14 +248,15 @@ function ModalForm({ setModalForm, token, editId, setEditId }) {
               Check to Publish. Uncheck to save without publishing
             </label>
           </div>
-
-          {submitting ? (
-            <button type='submit' disabled>
-              Creating Post...
-            </button>
-          ) : (
-            <button type='submit'>Create Post</button>
-          )}
+          <div>
+            {submitting ? (
+              <button type='submit' disabled>
+                Creating Post...
+              </button>
+            ) : (
+              <button type='submit'>Create Post</button>
+            )}
+          </div>
         </form>
       </>
     );
