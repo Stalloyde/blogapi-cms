@@ -2,26 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './modalForm.module.css';
 
-function ModalForm({
-  setModalForm,
-  token,
-  editId,
-  setEditId,
-  submitting,
-  setSubmitting,
-}) {
+function ModalForm({ token, editId, submitting, setSubmitting, closeModal }) {
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [image, setImage] = useState(null);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    if (!submitting) {
-      setModalForm(false);
-      setEditId(null);
-    }
-  };
+  const [image, setImage] = useState(null || '');
+  const navigate = useNavigate(null);
 
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
@@ -30,7 +16,7 @@ function ModalForm({
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
-    formData.append('toPublish', toPublish);
+    formData.append('toPublish', toPublish.toString());
     formData.append('image', image);
 
     try {
@@ -48,7 +34,7 @@ function ModalForm({
           `This is an HTTP error: The status is ${response.status}: ${response}`,
         );
       } else {
-        setModalForm(false);
+        closeModal();
       }
     } catch (err: any) {
       throw new Error(err.message);
@@ -62,7 +48,7 @@ function ModalForm({
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
-    formData.append('toPublish', toPublish);
+    formData.append('toPublish', toPublish.toString());
     formData.append('image', image);
     formData.append('editId', editId);
 
@@ -81,7 +67,7 @@ function ModalForm({
           `This is an HTTP error: The status is ${response.status}: ${response}`,
         );
       } else {
-        setModalForm(false);
+        closeModal();
       }
     } catch (err: any) {
       throw new Error(err.message);
@@ -122,7 +108,7 @@ function ModalForm({
 
     return (
       <>
-        <div className={styles.newPostOverlay} onClick={handleClick}></div>
+        <div className={styles.newPostOverlay} onClick={closeModal}></div>
         <form
           className={styles.form}
           onSubmit={handleSubmitEdit}
@@ -168,7 +154,7 @@ function ModalForm({
               type='checkbox'
               name='publish'
               id='publish'
-              checked={toPublish}
+              checked={Boolean(toPublish)}
               onChange={() => {
                 setToPublish(!toPublish);
               }}
@@ -192,7 +178,7 @@ function ModalForm({
   } else {
     return (
       <>
-        <div className={styles.newPostOverlay} onClick={handleClick}></div>
+        <div className={styles.newPostOverlay} onClick={closeModal}></div>
         <form
           className={styles.form}
           onSubmit={handleSubmitCreate}

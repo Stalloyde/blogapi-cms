@@ -11,28 +11,14 @@ type PropsType = {
   setToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function Header({
-  token,
-  setToken,
-  setModalForm,
-  submitting,
-  setSubmitting,
-  setEditId,
-}: PropsType) {
-  const handleClick = () => {
+function Header({ token, setToken, closeModal }: PropsType) {
+  const logOut = () => {
     setToken('');
     Cookies.remove('token');
   };
 
-  const handleModalForm = () => {
-    if (!submitting) {
-      setModalForm(false);
-      setEditId(null);
-    }
-  };
-
   return (
-    <header className={styles.header} onClick={handleModalForm}>
+    <header className={styles.header} onClick={closeModal}>
       {token ? (
         <Link to='/mod/posts' className={styles.navbtn}>
           <img src={homeLogo} alt='home-logo'></img>
@@ -54,7 +40,7 @@ function Header({
             </Link>
           </>
         ) : (
-          <div className={styles.navbtn} onClick={handleClick}>
+          <div className={styles.navbtn} onClick={logOut}>
             <img src={logoutLogo} alt='logout-logo'></img>
             Log out
           </div>

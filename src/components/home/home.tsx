@@ -34,12 +34,7 @@ type PostsType = {
   comments: [];
 }[];
 
-function Card({ post, token, setPosts, setModalForm, setEditId }) {
-  const handleEdit = (editId) => {
-    setModalForm(true);
-    setEditId(editId);
-  };
-
+function Card({ post, token, setPosts, openModal }) {
   const handleDelete = async () => {
     const confirmation = window.confirm(
       'Are you sure you want to delete this post?',
@@ -78,7 +73,7 @@ function Card({ post, token, setPosts, setModalForm, setEditId }) {
   return (
     <div className={styles.card}>
       <div className={styles.cardActions}>
-        <div onClick={() => handleEdit(post._id)}>
+        <div onClick={() => openModal(post._id)}>
           <img src={editIcon} alt='edit'></img>
           Edit
         </div>
@@ -129,8 +124,17 @@ function Home({ token, setToken }: PropsType) {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleCreatePost = () => {
+  const openModal = (editId) => {
     setModalForm(true);
+    if (editId) setEditId(editId);
+  };
+
+  const closeModal = () => {
+    if (!submitting) {
+      setSubmitting(false);
+      setModalForm(false);
+      setEditId(null);
+    }
   };
 
   useEffect(() => {
@@ -150,8 +154,6 @@ function Home({ token, setToken }: PropsType) {
         }
         const responseData = await response.json();
         setPosts(responseData);
-        setSubmitting(false);
-        setError(null);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -167,8 +169,7 @@ function Home({ token, setToken }: PropsType) {
       setToken={setToken}
       setModalForm={setModalForm}
       submitting={submitting}
-      setSubmitting={setSubmitting}
-      setEditId={setEditId}>
+      closeModal={closeModal}>
       {loading && <div className='loading'>Loading...</div>}
       {error && !loading && <div className='error'>{error}</div>}
 
@@ -181,7 +182,7 @@ function Home({ token, setToken }: PropsType) {
           <div className={styles.cardContainer}>
             <div
               className={`${styles.card} ${styles.newProject}`}
-              onClick={handleCreatePost}>
+              onClick={() => openModal()}>
               <div>Create New Post</div>
               <img src={createIcon} alt='create' />
             </div>
@@ -189,21 +190,20 @@ function Home({ token, setToken }: PropsType) {
               <Card
                 post={post}
                 setPosts={setPosts}
-                setModalForm={setModalForm}
-                setEditId={setEditId}
                 key={index}
                 token={token}
+                openModal={openModal}
+                closeModal={closeModal}
               />
             ))}
           </div>
           {modalForm && (
             <ModalForm
-              setModalForm={setModalForm}
               editId={editId}
-              setEditId={setEditId}
               token={token}
               submitting={submitting}
               setSubmitting={setSubmitting}
+              closeModal={closeModal}
             />
           )}
         </>

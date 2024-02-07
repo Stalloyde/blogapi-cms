@@ -12,16 +12,16 @@ function Layout({
   children,
   token,
   setToken,
-  setModalForm,
   submitting,
+  closeModal,
 }: PropsType) {
   return (
     <>
       <Header
         token={token}
         setToken={setToken}
-        setModalForm={setModalForm}
         submitting={submitting}
+        closeModal={closeModal}
       />
       <main>{children}</main>
       <Footer />
