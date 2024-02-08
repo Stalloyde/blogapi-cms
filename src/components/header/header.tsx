@@ -9,6 +9,7 @@ import logoutLogo from '../../assets/icons8-logout-50.png';
 type PropsType = {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  closeModal: () => void;
 };
 
 function Header({ token, setToken, closeModal }: PropsType) {

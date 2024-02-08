@@ -10,6 +10,7 @@ import createIcon from '../../assets/icons8-add-48.png';
 import ModalForm from './modalForm';
 
 type PostsType = {
+  _id: string;
   image: {
     fieldname: string;
     originalname: string;
@@ -31,11 +32,12 @@ type PostsType = {
 }[];
 
 type PropsType = {
-  post: PostsType;
+  post: PostsType[0];
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
-  setPosts: React.Dispatch<React.SetStateAction<string>>;
-  openModal: () => void;
+  setPosts: React.Dispatch<React.SetStateAction<PostsType>>;
+  openModal: (editId: string) => void;
+  closeModal: () => void;
 };
 
 function Card({ post, token, setPosts, openModal }: PropsType) {
@@ -128,9 +130,14 @@ function Home({ token, setToken }: PropsType) {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const openModal = (editId: string) => {
-    setModalForm(true);
-    if (editId) setEditId(editId);
+  const openModal = (editId: string | null) => {
+    if (editId) {
+      setEditId(editId);
+      setModalForm(true);
+    } else {
+      console.log('asad');
+      setModalForm(true);
+    }
   };
 
   const closeModal = () => {
@@ -168,12 +175,7 @@ function Home({ token, setToken }: PropsType) {
   }, [token, modalForm]);
 
   return (
-    <Layout
-      token={token}
-      setToken={setToken}
-      setModalForm={setModalForm}
-      submitting={submitting}
-      closeModal={closeModal}>
+    <Layout token={token} setToken={setToken} closeModal={closeModal}>
       {loading && <div className='loading'>Loading...</div>}
       {error && !loading && <div className='error'>{error}</div>}
 
@@ -193,6 +195,7 @@ function Home({ token, setToken }: PropsType) {
             {posts.map((post, index) => (
               <Card
                 post={post}
+                setToken={() => {}} //dummy prop
                 setPosts={setPosts}
                 key={index}
                 token={token}

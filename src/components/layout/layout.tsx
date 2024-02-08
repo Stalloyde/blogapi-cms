@@ -6,23 +6,13 @@ type PropsType = {
   children: any;
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  closeModal: () => void;
 };
 
-function Layout({
-  children,
-  token,
-  setToken,
-  submitting,
-  closeModal,
-}: PropsType) {
+function Layout({ children, token, setToken, closeModal }: PropsType) {
   return (
     <>
-      <Header
-        token={token}
-        setToken={setToken}
-        submitting={submitting}
-        closeModal={closeModal}
-      />
+      <Header token={token} setToken={setToken} closeModal={closeModal} />
       <main>{children}</main>
       <Footer />
     </>

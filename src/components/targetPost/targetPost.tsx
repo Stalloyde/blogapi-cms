@@ -13,10 +13,10 @@ type PropsType = {
 };
 
 type TargetPostsType = {
-  image: Object;
-  author: String;
-  title: String;
-  content: String;
+  image: { url: string };
+  author: { username: string };
+  title: string;
+  content: string;
   date: Date;
   isPublished: Boolean;
   comments: [];
@@ -25,11 +25,11 @@ type TargetPostsType = {
 type CommentType = {
   _id: string;
   author: {
-    id: String;
-    username: String;
+    id: string;
+    username: string;
     isMod: Boolean;
   };
-  content: String;
+  content: string;
   date: Date;
 };
 
@@ -145,7 +145,7 @@ function TargetPost({ token, setToken }: PropsType) {
   }, [token, rerender]);
 
   return (
-    <Layout token={token} setToken={setToken}>
+    <Layout token={token} setToken={setToken} closeModal={() => {}}>
       {loading && <div className='loading'>Loading...</div>}
       {error && !loading && <div className='error'>{error}</div>}
 

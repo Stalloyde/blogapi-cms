@@ -4,9 +4,9 @@ import styles from './modalForm.module.css';
 
 type PropsType = {
   token: string;
-  editId: string;
+  editId: string | null;
   submitting: Boolean;
-  setSubmitting: React.Dispatch<React.SetStateAction<Boolean>>;
+  setSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
   closeModal: () => void;
 };
 
@@ -20,10 +20,14 @@ function ModalForm({
   const [toPublish, setToPublish] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [image, setImage] = useState(null || '');
-  const navigate = useNavigate(null);
+  const [image, setImage] = useState<'' | File>('');
+  const navigate = useNavigate();
 
-  const handleSubmitCreate = async (e) => {
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setImage(e.target.files[0]);
+  };
+
+  const handleSubmitCreate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
 
@@ -64,7 +68,7 @@ function ModalForm({
     formData.append('content', content);
     formData.append('toPublish', toPublish.toString());
     formData.append('image', image);
-    formData.append('editId', editId);
+    if (editId) formData.append('editId', editId);
 
     try {
       const response = await fetch(`http://localhost:3000/mod/posts`, {
@@ -113,7 +117,7 @@ function ModalForm({
             setToPublish(responseData.isPublished);
             setImage(responseData.image);
           }
-        } catch (err) {
+        } catch (err: any) {
           throw new Error(err.msg);
         }
       };
@@ -148,7 +152,7 @@ function ModalForm({
               accept='image/png, image/jpeg, image/*'
               name='image'
               id='image'
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={handleImage}
             />
           </div>
 
@@ -219,7 +223,7 @@ function ModalForm({
               name='image'
               id='image'
               required
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={handleImage}
             />
           </div>
 
