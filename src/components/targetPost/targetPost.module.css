@@ -24,6 +24,7 @@
     box-shadow: -3px 3px black;
     margin: 1em auto;
     line-height: 1.5;
+    white-space: pre-line;
 }
 
 .commentsContainer {
