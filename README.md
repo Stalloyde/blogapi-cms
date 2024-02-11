@@ -1,4 +1,4 @@
-LINK TO LIVE APP: https://blogapi-client-stalloyde.fly.dev/posts
+LINK TO LIVE APP: https://blogapi-client-stalloyde.fly.dev
 
 This is the content management system for Blog API Client. It is for the author to create, edit or delete posts/comments. It is not for public use.
 
