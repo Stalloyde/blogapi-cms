@@ -2,11 +2,19 @@
 
 This is the content management system for Blog API Client. It is for the author to create, edit or delete posts/comments. It is not for public use.
 
-Quick previews of the site:
+Quick previews of the site-
+
+Login Page:
 ![Login Page](/src/assets/login.png)
+
+Main Page:
 ![Main Page](/src/assets/main-page.png)
+
+Form to create/edit post:
 ![Form to Create/Edit Post](/src/assets/new-post.png)
 
+How the post looks with a comment added:
+![Demo Post](/src/assets/demo-post.png)
 
 The project was developed using the following technologies:
 
