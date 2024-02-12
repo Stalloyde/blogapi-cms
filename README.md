@@ -2,7 +2,7 @@
 
 This is the content management system for Blog API Client. It is for the author to create, edit or delete posts/comments. It is not for public use.
 
-Quick previews of the site-
+# Quick previews of the site
 
 Login Page:
 ![Login Page](/src/assets/login.png)
@@ -18,9 +18,9 @@ How the post looks with a comment added:
 
 The project was developed using the following technologies:
 
-Front-end: React + Typescript
-Back-end: NodeJS + Express
-Database: MongoDB
+- Front-end: React + Typescript
+- Back-end: NodeJS + Express
+- Database: MongoDB
 
 Here are the links to repos associated to this project:
 
