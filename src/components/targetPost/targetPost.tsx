@@ -54,7 +54,7 @@ function TargetPost({ token, setToken }: PropsType) {
     if (confirmation) {
       try {
         const response = await fetch(
-          `http://localhost:3000/mod/posts/${targetPostId.id}`,
+          `https://blog-api-stalloyde.fly.dev/mod/posts/${targetPostId.id}`,
           {
             method: 'DELETE',
             headers: {
@@ -85,7 +85,7 @@ function TargetPost({ token, setToken }: PropsType) {
     setSubmitting(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/mod/posts/${targetPostId.id}`,
+        `https://blog-api-stalloyde.fly.dev/mod/posts/${targetPostId.id}`,
         {
           method: 'POST',
           headers: {
@@ -116,7 +116,7 @@ function TargetPost({ token, setToken }: PropsType) {
     const fetchTargetPost = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/mod/posts/${targetPostId.id}`,
+          `https://blog-api-stalloyde.fly.dev/mod/posts/${targetPostId.id}`,
           {
             headers: {
               Authorization: token,

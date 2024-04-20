@@ -42,16 +42,21 @@ function Login({ setToken }: PropsType) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/mod/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://blog-api-stalloyde.fly.dev/mod/login',
+        {
+          mode: 'cors',
+          credentials: 'same-origin',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
         },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
+      );
 
       const responseData = await response.json();
       if (!responseData.user && !responseData.Bearer) {

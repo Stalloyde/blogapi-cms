@@ -30,7 +30,6 @@ function ModalForm({
   const handleSubmitCreate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
@@ -38,13 +37,16 @@ function ModalForm({
     formData.append('image', image);
 
     try {
-      const response = await fetch(`http://localhost:3000/mod/posts`, {
-        method: 'POST',
-        headers: {
-          Authorization: token,
+      const response = await fetch(
+        `https://blog-api-stalloyde.fly.dev/mod/posts`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: token,
+          },
+          body: formData,
         },
-        body: formData,
-      });
+      );
 
       if (!response.ok) {
         if (response.status === 401) navigate('/mod/login');
@@ -71,13 +73,16 @@ function ModalForm({
     if (editId) formData.append('editId', editId);
 
     try {
-      const response = await fetch(`http://localhost:3000/mod/posts`, {
-        method: 'PUT',
-        headers: {
-          Authorization: token,
+      const response = await fetch(
+        `https://blog-api-stalloyde.fly.dev/mod/posts`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: token,
+          },
+          body: formData,
         },
-        body: formData,
-      });
+      );
 
       if (!response.ok) {
         if (response.status === 401) navigate('/mod/login');
@@ -97,7 +102,7 @@ function ModalForm({
       const editTarget = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3000/mod/posts/${editId}`,
+            `https://blog-api-stalloyde.fly.dev/mod/posts/${editId}`,
             {
               headers: {
                 'Content-Type': 'application/json',

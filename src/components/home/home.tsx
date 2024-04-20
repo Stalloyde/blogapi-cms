@@ -50,16 +50,19 @@ function Card({ post, token, setPosts, openModal }: PropsType) {
       const targetPostId = post._id;
 
       try {
-        const response = await fetch(`http://localhost:3000/mod/posts`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
+        const response = await fetch(
+          `https://blog-api-stalloyde.fly.dev/mod/posts`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token,
+            },
+            body: JSON.stringify({
+              targetPostId,
+            }),
           },
-          body: JSON.stringify({
-            targetPostId,
-          }),
-        });
+        );
 
         const responseData = await response.json();
 
@@ -151,11 +154,14 @@ function Home({ token, setToken }: PropsType) {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/mod/posts', {
-          headers: {
-            Authorization: token,
+        const response = await fetch(
+          'https://blog-api-stalloyde.fly.dev/mod/posts',
+          {
+            headers: {
+              Authorization: token,
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           if (response.status === 401) navigate('/mod/login');
