@@ -25,7 +25,7 @@ The project was developed using the following technologies:
 Here are the links to repos associated to this project:
 
 - API: https://github.com/Stalloyde/blog-api
-- CMS: https://github.com/Stalloyde/blogapi-cms
+- CLIENT: https://github.com/Stalloyde/blogapi-client
 
 All users are able to read blog posts. Login is required to post comments.
 
